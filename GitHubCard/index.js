@@ -84,7 +84,7 @@ function createStudent(info){
   const desc = document.createElement('p');
 
   card.appendChild(picture);
-  card.classList.add('person');
+  card.classList.add('card');
   picture.src = info.avatar_url;
 
   card.appendChild(cardInfo);
