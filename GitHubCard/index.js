@@ -24,8 +24,6 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
-
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -43,8 +41,80 @@ const followersArray = [];
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
+
+axios.get('https://api.github.com/users/Gatrrr')
+
+.then (dataSet => {
+  const githubInfo = dataSet.data;
+
+  cards.appendChild(githubInfo)
+})
+  .catch (error => {
+  console.log("this is an error...", error)
+})
+
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'bigknell', 'luishrd', 'Gatrrr']; 
+
+
+followersArray.forEach(user => {
+  axios.get(`https://api.github.com/users/${user}`)
+
+  .then (res => {
+     const card = createStudent(res.data)
+     const cards = document.querySelector('.cards')
+     cards.appendChild(card)
+   })
+   .catch (error => {
+     console.log("this is an error", error)
+   })
+})
+
+
+function createStudent(info){
+  const card = document.createElement('div');
+  const picture = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const header3 = document.createElement('h3');
+  const userName = document.createElement('p');
+  const loca = document.createElement('p');
+  const prof = document.createElement('p'); // this could be an 'a' tag maybe
+  const follower = document.createElement('p');
+  const follows = document.createElement('p');
+  const desc = document.createElement('p');
+
+  card.appendChild(picture);
+  card.classList.add('person');
+  picture.src = info.avatar_url;
+
+  card.appendChild(cardInfo);
+  cardInfo.classList.add('card-info');
+
+  cardInfo.appendChild(header3);
+  header3.classList.add('name');
+  header3.textContent = info.name; 
+
+  cardInfo.appendChild(userName);
+  userName.classList.add('username');
+  userName.textContent = info.login;
+
+  cardInfo.appendChild(loca);
+  loca.textContent = info.location;
+
+  cardInfo.appendChild(prof);
+  prof.textContent = info.profile;
+
+  cardInfo.appendChild(follower);
+  follower.textContent = info.followers;
+
+  cardInfo.appendChild(follows);
+  follows.textContent = info.following;
+
+  cardInfo.appendChild(desc);
+  desc.textContent = info.bio;
+
+  return card;
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
